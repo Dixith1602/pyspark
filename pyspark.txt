@@ -1,1 +1,33 @@
+What is spark architecture and its components?
 
+PySpark architecture follows Apache Spark's master-worker model for distributed data processing, with Python API integration via Py4J. It scales from single machine to thousands of nodes through these core components
+
+User Code → Driver → DAG Scheduler → Task Scheduler → Executors
+
+Core components:
+* Driver programs
+* Executors
+* CLuster management
+
+Difference between hadoop and spark:
+
+| Aspect       | Hadoop                  | Spark                                  |
+| ------------ | ----------------------- | -------------------------------------- |
+| Processing   | Disk-based MapReduce    | In-memory RDDs/DataFrames chaosgenius​ |
+| Speed        | 10x slower than Spark   | 100x faster for in-memory ops          |
+| Architecture | HDFS + YARN + MapReduce | Driver + Executors + Cluster Manager   |
+| Real-time    | Batch only              | Streaming + Interactive                |
+| Storage      | HDFS (distributed FS)   | Memory first, disk spillover           |
+| Use Cases    | ETL, batch analytics    | ML, streaming, real-time analytics     |
+
+What is spark context and spark session
+
+SparkContext is the original low-level entry point for Spark, handling RDD operations and cluster connection. SparkSession (Spark 2.0+) is the modern unified entry point that wraps SparkContext and adds DataFrame/SQL/Streaming support.
+
+| Aspect    | SparkContext                      | SparkSession                                      |
+| --------- | --------------------------------- | ------------------------------------------------- |
+| Purpose   | RDD operations only               | RDD + DataFrame + SQL + Streaming                 |
+| Creation  | SparkContext("appName", "master") | SparkSession.builder.appName("app").getOrCreate() |
+| Internals | Standalone                        | Contains SparkContext + SQLContext + HiveContext  |
+| Usage     | Legacy code                       | Modern PySpark standard                           |
+| Access    | Direct                            | spark.sparkContext for RDDs                       |
