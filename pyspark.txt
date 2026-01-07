@@ -63,3 +63,12 @@ Job, Stage, Executor, Cluster manager, tasks
 | Task            | Stage execution on 1 partition                 | Process 1/100 Home Credit partitions |
 | Executor        | JVM process on worker node (4GB, 2 cores)      | Runs 5 tasks in parallel             |
 | Cluster Manager | Allocates Executors (YARN/Standalone/K8s)      | Manages 10 worker nodes              |
+
+
+note: joins work on key pairs
+
+serialization and de-serialization
+  serialization: Compressed format
+  de-serialization: uncompressed format
+
+
