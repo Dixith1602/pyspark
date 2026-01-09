@@ -71,4 +71,4 @@ serialization and de-serialization
   serialization: Compressed format
   de-serialization: uncompressed format
 
-
+Types of mode in writing data to csv
