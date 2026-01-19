@@ -72,3 +72,5 @@ serialization and de-serialization
   de-serialization: uncompressed format
 
 Types of mode in writing data to csv
+
+Difference between groupBy and partitionBy
