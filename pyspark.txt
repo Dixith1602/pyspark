@@ -5,9 +5,10 @@ PySpark architecture follows Apache Spark's master-worker model for distributed 
 User Code → Driver → DAG Scheduler → Task Scheduler → Executors
 
 Core components:
-* Driver programs
+* Driver Program
+* Cluster Manager
 * Executors
-* CLuster management
+* Worker Nodes
 
 Difference between hadoop and spark:
 
@@ -37,22 +38,15 @@ map** transforms each element to one output (1:1), while flatMap transforms each
 
 Difference between GroupByKey vs ReducedByKey
 
-| Aspect        | groupByKey                | reduceByKey                          |
-| ------------- | ------------------------- | ------------------------------------ |
-| Data Movement | All values shuffled first | Local combine → shuffle reduced data |
-| Output        | (key, Iterable[values])   | (key, single_reduced_value)          |
-| Performance   | ❌ Expensive shuffle       | ✅ 10x faster for large data          |
-| Memory        | Loads all values per key  | Processes incrementally              |
+groupby: It collects all the values of the key and applies groupby to the entire data
+reduceby: It performs local aggregation first then it sends filtered data across network. this reduces shuffle.
 
 Difference between RDD, DataFrame, Dataset
 
-| Feature      | RDD                      | DataFrame                      | Dataset                         |
-| ------------ | ------------------------ | ------------------------------ | ------------------------------- |
-| Introduced   | Spark 1.0                | Spark 1.3                      | Spark 1.6 (Scala), PySpark 2.0+ |
-| Structure    | Unstructured             | Named columns (like SQL table) | Typed objects + columns         |
-| Optimization | Manual                   | Catalyst + Tungsten ✓          | Catalyst + Tungsten ✓           |
-| Type Safety  | Compile-time ✓           | Runtime only                   | Compile-time ✓ (Scala)          |
-| API Style    | Functional (map, filter) | SQL + functional               | Both                            |
+RDD: It is a basic low level structure in the spark, collection of distributed objects, It is immutable.
+DataFrame: It is a distributed table with rows and column, Structured Data
+Dataset: Combination of dataframe and type safety.
+
 
 Job, Stage, Executor, Cluster manager, tasks
 
@@ -74,3 +68,16 @@ serialization and de-serialization
 Types of mode in writing data to csv
 
 Difference between groupBy and partitionBy
+groupby: aggregation of data based on key, causes wide transformation since the shuffle takes place
+partitionby: physical data distribution across partitions
+
+Wide and narrow transformation: 
+Narrow transformation: No data shuffle across the cluster, Which results in Fast and more effiecient process.
+Eg: map, filter, flatmap, select etc
+
+wide transformation: Required data shuffle across the cluster, which results in slower and more expensive.
+Eg: groupBy, reduceBy, orderBy, join etc
+
+Difference between coalasce, repartition and partition
+repartition: increase or decrease the number of partition across full data shuffle.
+coalesce: reduces number of partitions without causing shuffle.
